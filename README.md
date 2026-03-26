@@ -1,73 +1,94 @@
-# Template de projeto em C (AED-I)
+# Aula: AVL
 
-Este repositorio e um template simples para exercicios em C. O programa atual imprime "Hello, World!".
+No momento, o repositório contém um protótipo usado para experimentar rotações em árvores antes de integrá-las a um TAD AVL completo.
 
-## Estrutura
+## Estrutura do Repositório
 
-```
+```text
 .
 ├── README.md
-├── src/
-│   └── main.c
-├── build/           # executaveis compilados (criado apos o build)
-└── .devcontainer/
-    ├── Dockerfile
-    └── devcontainer.json
+└── src/
+    ├── avl-tad/
+    │   └── README.md
+    └── prototype/
+        ├── Makefile
+        ├── element.c
+        ├── element.h
+        ├── node.c
+        ├── node.h
+        ├── rotations.c
+        ├── rotations.h
+        ├── test_ll.c
+        ├── test_lr.c
+        ├── test_rl.c
+        ├── test_rr.c
+        └── build/
 ```
 
-## Compilacao
+## Conteúdo Atual
 
-Use um compilador C (clang ou gcc). No diretorio do projeto:
+### `src/prototype/`
+
+Protótipo usado para montar árvores de exemplo e testar rotações AVL de forma isolada.
+
+- `element.*`: define o tipo de elemento armazenado.
+- `node.*`: define a estrutura `Node` e rotinas auxiliares da árvore.
+- `rotations.*`: reservado para as funções de rotação AVL.
+- `test_ll.c`: árvore de exemplo para rotação à direita (caso `LL`).
+- `test_rr.c`: árvore de exemplo para rotação à esquerda (caso `RR`).
+- `test_lr.c`: árvore de exemplo para rotação dupla esquerda-direita (caso `LR`).
+- `test_rl.c`: árvore de exemplo para rotação dupla direita-esquerda (caso `RL`).
+- `build/`: diretório de saída usado pelo Makefile.
+
+### `src/avl-tad/`
+
+Diretório reservado para a próxima etapa do material da aula: integrar as ideias do protótipo a um TAD AVL.
+
+## Fluxo de Compilação
+
+O diretório do protótipo inclui um `Makefile` com alvos que compilam os módulos comuns e cada programa de teste separadamente.
+
+A partir de `src/prototype/`:
 
 ```bash
-mkdir -p build
-clang -Wall -pedantic -o build/app src/main.c
+make test_ll
+make test_rr
+make test_lr
+make test_rl
 ```
 
-## Execucao
+Os executáveis gerados são colocados em `src/prototype/build/`.
+
+Comandos típicos de execução após a compilação:
 
 ```bash
-./build/app
+./build/test_ll
+./build/test_rr
+./build/test_lr
+./build/test_rl
 ```
 
-## Saida esperada
-
-```
-Hello, World!
-```
-
-## Como usar
-
-- Edite [src/main.c](src/main.c) para iniciar seus exercicios.
-- Recompile apos cada mudanca.
-
-## Ambiente de desenvolvimento (opcional)
-
-Este projeto inclui configuracao de Dev Container para VS Code em [.devcontainer](.devcontainer). O container usa Alpine Linux e instala `clang` e `valgrind`.
-
-### GitHub Codespaces
-
-Voce pode usar o Codespaces para abrir o projeto no navegador:
-
-1. No GitHub, clique em **Code**.
-2. Selecione a aba **Codespaces**.
-3. Clique em **Create codespace on main**.
-
-Ao iniciar, o ambiente ja vem configurado pelo dev container.
-
-### Docker
-
-Caso tenha Docker instalado na sua máquina, você pode usar o dev container localmente:
+Para remover os arquivos gerados:
 
 ```bash
-docker build -t aed-i-c -f .devcontainer/Dockerfile .
-docker run --rm -it -v "$PWD":/work -w /work aed-i-c
+make clean
 ```
 
-Dentro do container, compile e execute normalmente:
+## Estado Atual
 
-```bash
-mkdir -p build
-clang -Wall -pedantic -o build/app src/main.c
-./build/app
-```
+Este repositório ainda está em construção.
+
+- A estrutura geral do protótipo já está montada.
+- Os arquivos de teste já modelam árvores para os quatro casos de rotação AVL.
+- Partes da API ainda estão marcadas como `TODO`.
+- No estado atual, o protótipo não compila com sucesso usando o Makefile fornecido porque ainda faltam funções auxiliares referenciadas por `node.c` e a implementação das rotações.
+
+Em outras palavras, este repositório serve atualmente como material didático e código-base, não como uma implementação AVL finalizada.
+
+## Uso Sugerido em Aula
+
+1. Inspecionar as árvores de exemplo em `src/prototype/test_*.c`.
+2. Implementar as utilidades de nó e as funções de rotação que faltam.
+3. Compilar cada caso separadamente com o Makefile.
+4. Comparar a árvore antes e depois de cada rotação.
+5. Levar a lógica validada para o futuro TAD AVL em `src/avl-tad/`.
