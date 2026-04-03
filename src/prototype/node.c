@@ -3,7 +3,34 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-// TODO: implement API
+Node* create_node(Element key) {
+    Node* node = (Node*)malloc(sizeof(Node));
+    if (node == NULL)
+        return NULL;
+    node->key = key;
+    node->left = NULL;
+    node->right = NULL;
+    node->height = 1;
+    return node;
+}
+
+static int height(Node* node) {
+    return node == NULL ? 0 : node->height;
+}
+
+static int maximum(int a, int b) {
+    return a > b ? a : b;
+}
+
+static int balance_factor(Node* node) {
+    return node == NULL ? 0 : height(node->left) - height(node->right);
+}
+
+void update_height(Node* node) {
+    if (node == NULL)
+        return;
+    node->height = 1 + maximum(height(node->left), height(node->right));
+}
 
 void fill_spaces(int size) {
     for (int i = 0; i < size; i++) {
