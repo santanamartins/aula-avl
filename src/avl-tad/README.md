@@ -1,3 +1,1 @@
-AVL partial implementation.
-On current state, it is basically BST without balancing.
-TODO: - Implement balancing (rotations)
+AVL TAD implementation with modular structure for nodes, elements, and rotations. The prototype directory contains test cases for AVL rotations.
