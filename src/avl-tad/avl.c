@@ -9,9 +9,7 @@
 #include <stdbool.h>
 
 #include "node.h"
-
-// TODO: include rotation logicc
-// TODO: remove manual height updates 
+#include "rotations.h"
 
 struct AVL {
     Node* root;
@@ -58,6 +56,31 @@ bool avl_search(AVL* bst, Element key) {
 }
 
 
+Node* rebalance(Node* node) {
+    if (node != NULL) {
+        update_height(node);
+
+        int bf_root = balance_factor(node);
+        int bf_left = balance_factor(node->left);
+        int bf_right = balance_factor(node->right);
+
+        if (bf_root < -1 && bf_right <= 0) { // RR -> L
+            return rotate_left(node);
+        }
+        if (bf_root < -1 && bf_right > 0) { // RL -> RL
+            return rotate_right_left(node);
+        }
+        if (bf_root > 1 && bf_left >= 0) { // LL -> R 
+            return rotate_right(node);
+        }
+        if (bf_root > 1 && bf_left < 0) { // LR -> LR
+            return rotate_left_right(node);
+        }
+    }
+
+    return node;
+}
+
 Node* insert_recur(Node* node, Element key) {
     if (node == NULL) {
         return create_node(key);
@@ -68,12 +91,11 @@ Node* insert_recur(Node* node, Element key) {
         node->right = insert_recur(node->right, key);
     }
 
-    return node;
+    return rebalance(node);
 }
 
 void avl_insert(AVL* bst, Element key) {
     bst->root = insert_recur(bst->root, key);
-    update_all_heights(bst->root);
 }
 
 Node* successor(Node* node) {
@@ -117,12 +139,11 @@ Node* remove_recur(Node* node, Element key) {
         }
     }
 
-    return node;
+    return rebalance(node);
 }
 
 void avl_remove(AVL* bst, Element key) {
-    bst->root = remove_recur(bst->root, key);  
-    update_all_heights(bst->root);
+    bst->root = remove_recur(bst->root, key);
 }
 
 void avl_print(AVL* bst) {

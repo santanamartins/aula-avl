@@ -1,31 +1,35 @@
 #include "rotations.h"
 
-#include <stddef.h>
-
 Node* rotate_right(Node* node) {
-    if (node == NULL || node->left == NULL)
-        return node;
+    Node* pivot = node->left;
 
-    Node* new_root = node->left;
-    node->left = new_root->right;
-    new_root->right = node;
+    node->left = pivot->right;
+    pivot->right = node;
 
     update_height(node);
-    update_height(new_root);
+    update_height(pivot);
 
-    return new_root;
+    return pivot;
 }
 
 Node* rotate_left(Node* node) {
-    if (node == NULL || node->right == NULL)
-        return node;
+    Node* pivot = node->right;
 
-    Node* new_root = node->right;
-    node->right = new_root->left;
-    new_root->left = node;
+    node->right = pivot->left;
+    pivot->left = node;
 
     update_height(node);
-    update_height(new_root);
+    update_height(pivot);
 
-    return new_root;
+    return pivot;
+}
+
+Node* rotate_left_right(Node* node) {
+    node->left = rotate_left(node->left);
+    return rotate_right(node);
+}
+
+Node* rotate_right_left(Node* node) {
+    node->right = rotate_right(node->right);
+    return rotate_left(node);
 }

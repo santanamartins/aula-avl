@@ -1,5 +1,7 @@
 CC = gcc -Wall -pedantic
 
+all: test_ll test_rr test_lr test_rl
+
 build_dir: 
 	mkdir -p build
 
